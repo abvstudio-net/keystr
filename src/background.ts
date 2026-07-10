@@ -126,17 +126,22 @@ browser.runtime.onInstalled.addListener(async () => {
   await PromptManager.clear();
 });
 
-browser.windows.onRemoved.addListener(_windowId => {
+/**
+ * Handles the closing of a prompt or PIN popup window.
+ * Rejects all pending prompts associated with the closed window.
+ *
+ * @param closedId - The ID of the closed window (or tab on Android).
+ */
+function handlePromptPopupClosed(closedId: number) {
   // Search the open prompts with this window ID
-  const openPrompts = Object.values(openPromptMap).filter(({ windowId }) => windowId === _windowId);
+  const openPrompts = Object.values(openPromptMap).filter(({ windowId }) => windowId === closedId);
 
-  console.debug(`Window ${_windowId} closed. Closing ${openPrompts.length} prompts.`);
+  console.debug(`Prompt popup ${closedId} closed. Closing ${openPrompts.length} prompts.`);
 
   // Handle the rejection on all of them
   // We need to do it sequentially, hence the async trick
   const closeAllAsync = async () => {
     for (const openPrompt of openPrompts) {
-      // Since the window is closed, then take it as a Reject
       await handlePromptMessage(
         {
           id: openPrompt.id,
@@ -151,12 +156,24 @@ browser.windows.onRemoved.addListener(_windowId => {
   closeAllAsync(); // now run
 
   // Also handle PIN prompts
-  const pinPrompts = Object.values(pinPromptMap).filter(({ windowId }) => windowId === _windowId);
+  const pinPrompts = Object.values(pinPromptMap).filter(({ windowId }) => windowId === closedId);
   for (const pinPrompt of pinPrompts) {
     pinPrompt.reject(new Error('PIN prompt window closed'));
     delete pinPromptMap[pinPrompt.id];
   }
-});
+}
+
+// Listen for popup closing, with support for both Desktop and Android Firefox
+if (browser.windows) {
+  browser.windows.onRemoved.addListener(windowId => {
+    handlePromptPopupClosed(windowId);
+  });
+} else {
+  // Android Firefox — popups are tabs, not windows
+  browser.tabs.onRemoved.addListener(tabId => {
+    handlePromptPopupClosed(tabId);
+  });
+}
 
 /**
  * Handles a message from the content script by processing the specified type and parameters.
@@ -349,9 +366,10 @@ function promptPermission(host: string, level: number, params: PromptParams): Pr
       openPromptPromise = new Promise((resolve, reject) => {
         const openPrompt = Object.values(openPromptMap).find(({ windowId }) => windowId);
         if (openPrompt) {
-          browser.windows.get(openPrompt.windowId as number).then(win => {
-            resolve(win);
-          });
+          const getPopup = browser.windows
+            ? browser.windows.get(openPrompt.windowId as number)
+            : browser.tabs.get(openPrompt.windowId as number);
+          getPopup.then(win => resolve(win));
         } else {
           reject();
         }
@@ -452,9 +470,10 @@ function promptPin(mode: 'setup' | 'unlock' | 'disable'): Promise<string | null>
       console.debug('There is already a PIN prompt window open.');
       openPinPromise = new Promise((resolve, reject) => {
         if (existingPinPrompt.windowId) {
-          browser.windows.get(existingPinPrompt.windowId as number).then(win => {
-            resolve(win);
-          });
+          const getPopup = browser.windows
+            ? browser.windows.get(existingPinPrompt.windowId as number)
+            : browser.tabs.get(existingPinPrompt.windowId as number);
+          getPopup.then(win => resolve(win));
         } else {
           reject();
         }
