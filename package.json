@@ -11,9 +11,9 @@
     "build": "./build.js prod",
     "build:hosted": "./build.js prod-hosted",
     "watch": "ag -l --js | entr ./build.js",
-    "package:src": "cd src; zip -r nos2x-fox__src *; cd ..; mv src/nos2x-fox__src.zip ./var/releases/",
-    "package": "yarn run build; cd dist; zip -r archive *; cd ..; mv dist/archive.zip ./var/releases/nos2x-fox.xpi",
-    "package:hosted": "yarn run build:hosted; cd dist; zip -r archive *; cd ..; mv dist/archive.zip ./var/releases/nos2x-fox_hosted.xpi",
+    "package:src": "cd src; zip -r nos2x-fox_${npm_package_version}_src.zip *; cd ..; mv src/nos2x-fox_${npm_package_version}_src.zip ./var/releases/",
+    "package": "yarn run build; cd dist; zip -r archive *; cd ..; mv dist/archive.zip ./var/releases/nos2x-fox_${npm_package_version}.xpi",
+    "package:hosted": "yarn run build:hosted; cd dist; zip -r archive *; cd ..; mv dist/archive.zip ./var/releases/nos2x-fox_${npm_package_version}.hosted_unsigned.xpi",
     "start:firefox": "web-ext run --source-dir ./dist/ --firefox-profile ./var/firefox-profile --keep-profile-changes --profile-create-if-missing"
   },
   "dependencies": {
