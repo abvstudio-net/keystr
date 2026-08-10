@@ -25,7 +25,6 @@ async window.nostr.nip44.decrypt(peer, ciphertext): string // takes peer pubkey,
 ## Install
 
 * By yourself from file: look into [Releases](https://github.com/abvstudio-net/nos2x-fox/releases)
-* From the site [Firefox Add-on](https://addons.mozilla.org/en-US/firefox/addon/nos2x-fox/)
 
 ## PIN Protection
 

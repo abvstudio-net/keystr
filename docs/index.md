@@ -13,8 +13,6 @@ More information at the
 
 ## Important links
 
-- [Add-on in Firefox AMO](https://addons.mozilla.org/en-US/firefox/addon/nos2x-fox/) —
-  the add-on directly on the Firefox marketplace.
 - [Releases](https://github.com/abvstudio-net/nos2x-fox/releases) —
   you'll find the `.xpi` files to install locally (signed by Mozilla).
 - [Main GitHub repo](https://github.com/abvstudio-net/nos2x-fox) —
