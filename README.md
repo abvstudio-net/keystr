@@ -1,8 +1,9 @@
 ![](src/assets/logo/logotype.png)
-# nos2x-fox (nos2x for Firefox)
-notes and other stuff signed by an extension
+# keystr
+Nostr key store — sign events without giving sites your nsec.
 
-This is a fork from https://github.com/fiatjaf/nos2x focused on Firefox and related browsers.
+Browser extension implementing [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md).
+Originally forked from [nos2x](https://github.com/fiatjaf/nos2x) (Firefox adaptation).
 
 ## Nostr Signer Extension
 
@@ -24,11 +25,11 @@ async window.nostr.nip44.decrypt(peer, ciphertext): string // takes peer pubkey,
 
 ## Install
 
-* By yourself from file: look into [Releases](https://github.com/abvstudio-net/nos2x-fox/releases)
+* By yourself from file: look into [Releases](https://github.com/abvstudio-net/keystr/releases)
 
 ## PIN Protection
 
-nos2x-fox includes optional PIN protection to encrypt your private keys. When enabled, your private keys are encrypted using a PIN you choose, and you'll need to enter the PIN each time you use the extension (after the first unlock, the PIN is cached for 10 minutes).
+keystr includes optional PIN protection to encrypt your private keys. When enabled, your private keys are encrypted using a PIN you choose, and you'll need to enter the PIN each time you use the extension (after the first unlock, the PIN is cached for 10 minutes).
 
 ### How to Enable/Disable PIN Protection
 
@@ -68,8 +69,8 @@ The encrypted data is stored as a JSON string containing base64-encoded salt, IV
 To run the plugin from this code:
 
 ```
-$ git clone https://github.com/abvstudio-net/nos2x-fox
-$ cd nos2x-fox
+$ git clone https://github.com/abvstudio-net/keystr
+$ cd keystr
 $ yarn install
 $ yarn run build
 ```
@@ -83,9 +84,9 @@ After you build the extension, follow these steps:
 
 ## Feedback and ideas
 
-If you are experiencing any issue, you can report it in the [Issues](https://github.com/abvstudio-net/nos2x-fox/issues) secion.
+If you are experiencing any issue, you can report it in the [Issues](https://github.com/abvstudio-net/keystr/issues) secion.
 
-If you have any feature suggestion or idea for this extension, feel free to leave it in the [Discussions](https://github.com/abvstudio-net/nos2x-fox/discussions/categories/ideas).  
+If you have any feature suggestion or idea for this extension, feel free to leave it in the [Discussions](https://github.com/abvstudio-net/keystr/discussions/categories/ideas).  
 Also, if you like any of the already proposed ideas, upvote them!
 
 ---
@@ -93,7 +94,7 @@ Also, if you like any of the already proposed ideas, upvote them!
 ## Documentation site
 
 The documentation and design proposals are published at
-[abvstudio.net/nos2x-fox](https://abvstudio.net/nos2x-fox/), built from the
+[abvstudio.net/keystr](https://abvstudio.net/keystr/), built from the
 `docs/` folder with [MkDocs](https://www.mkdocs.org/). To preview locally:
 
 ```

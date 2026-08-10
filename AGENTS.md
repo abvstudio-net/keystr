@@ -1,6 +1,6 @@
-# nos2x-fox
+# keystr
 
-Firefox browser extension (Manifest V2) that implements [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md): a Nostr signer exposing `window.nostr` to web apps so they can sign events and encrypt/decrypt without receiving private keys.
+Browser extension (Manifest V2) that implements [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md): a Nostr key store / signer exposing `window.nostr` to web apps so they can sign events and encrypt/decrypt without receiving private keys.
 
 Fork of [nos2x](https://github.com/fiatjaf/nos2x), adapted for Firefox. Optional PIN protection (AES-GCM-256) encrypts stored keys; unlocked PIN is cached in memory for 10 minutes.
 

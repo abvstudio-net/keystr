@@ -5,7 +5,7 @@ import {
   RelaysConfig
 } from './types';
 
-const EXTENSION_CODE = 'nos2x-fox';
+const EXTENSION_CODE = 'keystr';
 
 window.nostr = {
   _requests: {},
@@ -62,7 +62,9 @@ window.nostr = {
   _call(type: string, params: PromptParams) {
     const id = Math.random().toString().slice(-4);
     console.log(
-      '%c[nos2x-fox:%c' +
+      '%c[' +
+        EXTENSION_CODE +
+        ':%c' +
         id +
         '%c]%c calling %c' +
         type +
@@ -113,7 +115,9 @@ window.addEventListener('message', message => {
   }
 
   console.log(
-    '%c[nos2x-fox:%c' +
+    '%c[' +
+      EXTENSION_CODE +
+      ':%c' +
       message.data.id +
       '%c]%c result: %c' +
       JSON.stringify(

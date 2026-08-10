@@ -4,7 +4,7 @@ import { buildNostrLinkUrl } from './common';
 import * as Storage from './storage';
 import { ConfigurationKeys } from './types';
 
-const EXTENSION_CODE = 'nos2x-fox';
+const EXTENSION_CODE = 'keystr';
 
 //#region Nostr link handler
 let linkHandlerTemplate = '';

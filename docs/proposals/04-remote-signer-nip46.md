@@ -2,7 +2,7 @@
 
 ## Problem / direction
 
-Today nos2x-fox is a **local** signer: the nsec lives in the browser profile
+Today keystr is a **local** signer: the nsec lives in the browser profile
 and is only usable by web pages in that browser via `window.nostr`
 (NIP-07). Consequences:
 

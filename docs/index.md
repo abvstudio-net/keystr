@@ -1,8 +1,8 @@
-# nos2x-fox — Firefox Nostr add-on
+# keystr — Nostr key store
 
-![nos2x-fox logo](images/logo.png){ width="128" }
+![keystr logo](images/logo.png){ width="128" }
 
-**nos2x-fox** is a Firefox add-on that lets you manage your Nostr keys
+**keystr** is a browser extension that lets you manage your Nostr keys
 in one place, and then sign events in websites without exposing your private key.
 
 It also has some additional features like giving permissions to sites for a
@@ -13,9 +13,9 @@ More information at the
 
 ## Important links
 
-- [Releases](https://github.com/abvstudio-net/nos2x-fox/releases) —
+- [Releases](https://github.com/abvstudio-net/keystr/releases) —
   you'll find the `.xpi` files to install locally (signed by Mozilla).
-- [Main GitHub repo](https://github.com/abvstudio-net/nos2x-fox) —
+- [Main GitHub repo](https://github.com/abvstudio-net/keystr) —
   screenshots, development info, and the code of course.
 
 ## License and Credits

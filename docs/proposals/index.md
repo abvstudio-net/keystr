@@ -1,6 +1,6 @@
 # Proposals
 
-Design proposals for evolving nos2x-fox. These are design notes, not committed
+Design proposals for evolving keystr. These are design notes, not committed
 roadmaps — each needs discussion before implementation.
 
 1. [Passkey key protection](01-passkey-key-protection.md) — replace PINs with

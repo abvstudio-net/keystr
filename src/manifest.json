@@ -1,8 +1,8 @@
 {
-  "name": "nos2x-fox",
-  "description": "Nostr Signer Extension (for Firefox)",
+  "name": "keystr",
+  "description": "Nostr key store — NIP-07 signer extension",
   "version": "1.20.1",
-  "homepage_url": "https://abvstudio.net/nos2x-fox/",
+  "homepage_url": "https://abvstudio.net/keystr/",
   "browser_specific_settings": {
     "gecko": {
       "id": "{fdacee2c-bab4-490d-bc4b-ecdd03d5d68a}"
@@ -24,7 +24,7 @@
     "scripts": ["background.js"]
   },
   "browser_action": {
-    "default_title": "nos2x-fox",
+    "default_title": "keystr",
     "default_popup": "popup.html"
   },
   "content_scripts": [
@@ -37,7 +37,7 @@
   "protocol_handlers": [
     {
       "protocol": "ext+nostr",
-      "name": "nos2x-fox",
+      "name": "keystr",
       "uriTemplate": "/nostr-handler.html?uri=%s"
     }
   ],

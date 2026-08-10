@@ -1,6 +1,6 @@
 # Vulnerability Review
 
-Security review of the nos2x-fox codebase, covering three questions:
+Security review of the keystr codebase, covering three questions:
 
 1. Is the software free of malware?
 2. Does it use good key-storage practices?
@@ -47,7 +47,7 @@ and the `runtime.onMessage` listener does not check the sender. The content scri
 is cached (after any unlock, for the configured duration), any website can do:
 
 ```js
-window.postMessage({ id: 'x', ext: 'nos2x-fox', type: 'getCachedPin', params: {} }, '*');
+window.postMessage({ id: 'x', ext: 'keystr', type: 'getCachedPin', params: {} }, '*');
 ```
 
 …and receive the PIN back through the normal response path. The PIN alone does not

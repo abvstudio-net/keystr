@@ -110,7 +110,7 @@ function Popup() {
   return (
     <>
       <h1>
-        <img src={logotype} alt="nos2x-fox" />
+        <img src={logotype} alt="keystr" />
       </h1>
       {!publicKeyHexa ? (
         <p>
