@@ -1,0 +1,21 @@
+site_name: nos2x-fox
+site_description: Firefox Nostr signer add-on (NIP-07)
+site_url: https://abvstudio.net/nos2x-fox/
+repo_url: https://github.com/abvstudio-net/nos2x-fox
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: deep purple
+
+nav:
+  - Home: index.md
+  - Proposals:
+      - proposals/index.md
+      - Passkey key protection: proposals/01-passkey-key-protection.md
+      - Batching & policies: proposals/02-batching-and-policies.md
+
+markdown_extensions:
+  - admonition
+  - attr_list

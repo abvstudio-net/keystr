@@ -24,7 +24,7 @@ async window.nostr.nip44.decrypt(peer, ciphertext): string // takes peer pubkey,
 
 ## Install
 
-* By yourself from file: look into [Releases](https://github.com/diegogurpegui/nos2x-fox/releases)
+* By yourself from file: look into [Releases](https://github.com/abvstudio-net/nos2x-fox/releases)
 * From the site [Firefox Add-on](https://addons.mozilla.org/en-US/firefox/addon/nos2x-fox/)
 
 ## PIN Protection
@@ -69,7 +69,7 @@ The encrypted data is stored as a JSON string containing base64-encoded salt, IV
 To run the plugin from this code:
 
 ```
-$ git clone https://github.com/diegogurpegui/nos2x-fox
+$ git clone https://github.com/abvstudio-net/nos2x-fox
 $ cd nos2x-fox
 $ yarn install
 $ yarn run build
@@ -84,17 +84,34 @@ After you build the extension, follow these steps:
 
 ## Feedback and ideas
 
-If you are experiencing any issue, you can report it in the [Issues](https://github.com/diegogurpegui/nos2x-fox/issues) secion.
+If you are experiencing any issue, you can report it in the [Issues](https://github.com/abvstudio-net/nos2x-fox/issues) secion.
 
-If you have any feature suggestion or idea for this extension, feel free to leave it in the [Discussions](https://github.com/diegogurpegui/nos2x-fox/discussions/categories/ideas).  
+If you have any feature suggestion or idea for this extension, feel free to leave it in the [Discussions](https://github.com/abvstudio-net/nos2x-fox/discussions/categories/ideas).  
 Also, if you like any of the already proposed ideas, upvote them!
 
 ---
 
+## Documentation site
+
+The documentation and design proposals are published at
+[abvstudio.net/nos2x-fox](https://abvstudio.net/nos2x-fox/), built from the
+`docs/` folder with [MkDocs](https://www.mkdocs.org/). To preview locally:
+
+```
+$ pip install -r requirements.txt
+$ mkdocs serve
+```
+
+The site is built and deployed to GitHub Pages by the `docs` GitHub Action.
+Note that `docs/updates.json` is the update manifest polled by self-hosted
+installations of the extension (see `src/hosted/manifest.json`) — keep it at
+the site root.
+
 ## License and Credits
 
-LICENSE: public domain.
-Original work by [fiatjaf](https://github.com/fiatjaf).
+LICENSE: MIT.
+Original work by [fiatjaf](https://github.com/fiatjaf), Firefox adaptation by
+[diegogurpegui](https://github.com/diegogurpegui).
 
 Design taken from [Flydexo](https://github.com/Flydexo). See https://github.com/fiatjaf/nos2x/pull/15
 
