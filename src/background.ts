@@ -130,7 +130,7 @@ browser.runtime.onInstalled.addListener(async () => {
  * Handles the closing of a prompt or PIN popup window.
  * Rejects all pending prompts associated with the closed window.
  *
- * @param closedId - The ID of the closed window (or tab on Android).
+ * @param closedId - The ID of the closed window.
  */
 function handlePromptPopupClosed(closedId: number) {
   // Search the open prompts with this window ID
@@ -163,17 +163,10 @@ function handlePromptPopupClosed(closedId: number) {
   }
 }
 
-// Listen for popup closing, with support for both Desktop and Android Firefox
-if (browser.windows) {
-  browser.windows.onRemoved.addListener(windowId => {
-    handlePromptPopupClosed(windowId);
-  });
-} else {
-  // Android Firefox — popups are tabs, not windows
-  browser.tabs.onRemoved.addListener(tabId => {
-    handlePromptPopupClosed(tabId);
-  });
-}
+// Listen for popup closing
+browser.windows.onRemoved.addListener(windowId => {
+  handlePromptPopupClosed(windowId);
+});
 
 /**
  * Handles a message from the content script by processing the specified type and parameters.
@@ -335,12 +328,7 @@ async function handlePromptMessage(
 
       // only close the prompt window if there is no other prompt pending
       if (openPrompts.length == 1) {
-        if (browser.windows) {
-          await browser.windows.remove(sender.tab.windowId);
-        } else {
-          // Android Firefox
-          await browser.tabs.remove(sender.tab.id);
-        }
+        await browser.windows.remove(sender.tab.windowId);
       }
     }
     // remove the prompt from the storage
@@ -357,7 +345,7 @@ function promptPermission(host: string, level: number, params: PromptParams): Pr
   return new Promise((resolve, reject) => {
     const promptPageURL = `${browser.runtime.getURL('prompt.html')}`;
 
-    let openPromptPromise: Promise<browser.Windows.Window | browser.Tabs.Tab>;
+    let openPromptPromise: Promise<browser.Windows.Window>;
 
     // check if there is already a prompt popup window open
     if (Object.values(openPromptMap).length > 0) {
@@ -366,10 +354,7 @@ function promptPermission(host: string, level: number, params: PromptParams): Pr
       openPromptPromise = new Promise((resolve, reject) => {
         const openPrompt = Object.values(openPromptMap).find(({ windowId }) => windowId);
         if (openPrompt) {
-          const getPopup = browser.windows
-            ? browser.windows.get(openPrompt.windowId as number)
-            : browser.tabs.get(openPrompt.windowId as number);
-          getPopup.then(win => resolve(win));
+          browser.windows.get(openPrompt.windowId as number).then(resolve);
         } else {
           reject();
         }
@@ -377,20 +362,12 @@ function promptPermission(host: string, level: number, params: PromptParams): Pr
     } else {
       console.debug('There is no prompt popup window open. Creating one.');
       // open the popup window
-      if (browser.windows) {
-        openPromptPromise = browser.windows.create({
-          url: promptPageURL,
-          type: 'popup',
-          width: 600,
-          height: 400
-        });
-      } else {
-        // Android Firefox
-        openPromptPromise = browser.tabs.create({
-          url: promptPageURL,
-          active: true
-        });
-      }
+      openPromptPromise = browser.windows.create({
+        url: promptPageURL,
+        type: 'popup',
+        width: 600,
+        height: 400
+      });
     }
 
     // when the prompt is opened (or found open), add it to the queue
@@ -462,7 +439,7 @@ function promptPin(mode: 'setup' | 'unlock' | 'disable'): Promise<string | null>
   let id = Math.random().toString().slice(4);
 
   return new Promise((resolve, reject) => {
-    let openPinPromise: Promise<browser.Windows.Window | browser.Tabs.Tab>;
+    let openPinPromise: Promise<browser.Windows.Window>;
 
     // Check if there is already a PIN prompt window open
     const existingPinPrompt = Object.values(pinPromptMap).find(p => p.mode === mode);
@@ -470,10 +447,7 @@ function promptPin(mode: 'setup' | 'unlock' | 'disable'): Promise<string | null>
       console.debug('There is already a PIN prompt window open.');
       openPinPromise = new Promise((resolve, reject) => {
         if (existingPinPrompt.windowId) {
-          const getPopup = browser.windows
-            ? browser.windows.get(existingPinPrompt.windowId as number)
-            : browser.tabs.get(existingPinPrompt.windowId as number);
-          getPopup.then(win => resolve(win));
+          browser.windows.get(existingPinPrompt.windowId).then(resolve);
         } else {
           reject();
         }
@@ -492,6 +466,15 @@ function promptPin(mode: 'setup' | 'unlock' | 'disable'): Promise<string | null>
       })
       .catch(reject);
   });
+}
+
+/**
+ * Closes the popup window the given message sender's tab belongs to.
+ */
+async function closeSenderWindow(sender: browser.Runtime.MessageSender): Promise<void> {
+  if (sender && sender.tab && sender.tab.windowId !== undefined) {
+    await browser.windows.remove(sender.tab.windowId);
+  }
 }
 
 /**
@@ -534,13 +517,7 @@ async function handlePinMessage(
         }
 
         // Close PIN window
-        if (sender && sender.tab) {
-          if (browser.windows && sender.tab.windowId !== undefined) {
-            await browser.windows.remove(sender.tab.windowId);
-          } else if (sender.tab.id !== undefined) {
-            await browser.tabs.remove(sender.tab.id);
-          }
-        }
+        await closeSenderWindow(sender);
 
         return { success: true };
       }
@@ -568,13 +545,7 @@ async function handlePinMessage(
           }
 
           // Close PIN window
-          if (sender && sender.tab) {
-            if (browser.windows && sender.tab.windowId !== undefined) {
-              await browser.windows.remove(sender.tab.windowId);
-            } else if (sender.tab.id !== undefined) {
-              await browser.tabs.remove(sender.tab.id);
-            }
-          }
+          await closeSenderWindow(sender);
 
           return { success: true };
         } catch (error) {
@@ -598,13 +569,7 @@ async function handlePinMessage(
         }
 
         // Close PIN window
-        if (sender && sender.tab) {
-          if (browser.windows && sender.tab.windowId !== undefined) {
-            await browser.windows.remove(sender.tab.windowId);
-          } else if (sender.tab.id !== undefined) {
-            await browser.tabs.remove(sender.tab.id);
-          }
-        }
+        await closeSenderWindow(sender);
 
         return { success: true };
       }

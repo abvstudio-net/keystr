@@ -300,28 +300,13 @@ export function convertUint8ArrayToHex(arrayData: Uint8Array): string {
 export function openPopupWindow(
   pageUrl: string,
   windowSize: { width: number; height: number } = { width: 600, height: 400 }
-): Promise<browser.Windows.Window | browser.Tabs.Tab> {
-  const promptPageURL = browser.runtime.getURL(pageUrl);
-
-  // open the popup window
-
-  let openPromptPromise: Promise<browser.Windows.Window | browser.Tabs.Tab>;
-  if (browser.windows) {
-    openPromptPromise = browser.windows.create({
-      url: promptPageURL,
-      type: 'popup',
-      width: windowSize.width,
-      height: windowSize.height
-    });
-  } else {
-    // Android Firefox
-    openPromptPromise = browser.tabs.create({
-      url: promptPageURL,
-      active: true
-    });
-  }
-
-  return openPromptPromise;
+): Promise<browser.Windows.Window> {
+  return browser.windows.create({
+    url: browser.runtime.getURL(pageUrl),
+    type: 'popup',
+    width: windowSize.width,
+    height: windowSize.height
+  });
 }
 
 //#region Private Key Utilities
