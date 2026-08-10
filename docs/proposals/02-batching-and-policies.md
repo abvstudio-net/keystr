@@ -51,6 +51,27 @@ Prompt once per *trust decision*, not once per *action* (the passkey model:
 enroll once, act freely within scope). Per-event prompts should be reserved
 for high-impact operations.
 
+## Prior art in upstream nos2x
+
+Upstream (fiatjaf/nos2x v2.x) has already shipped pieces of this:
+
+- **Kind-scoped policies**: its policy model is
+  `policies[host][accept][type].conditions.kinds` — "authorize kind 7
+  forever" / "reject kind 3 forever" (accept *and* reject grants, reverse
+  policies cancel each other). Adopt this conditions model instead of
+  inventing a new one; merge with our time-boxed grants (which upstream
+  lacks).
+- **Result-in-prompt**: it performs the operation *before* asking and shows
+  the decryption result in the prompt, so users see the actual plaintext
+  being approved. Relevant to 2a, with a caveat: crypto happens regardless
+  of consent, only disclosure is gated.
+- **Notifications as audit log**: optional `notifications` permission fires
+  a browser notification for every auto-allowed/denied action — a cheap
+  answer to the audit question below.
+- **`peekPublicKey`**: a non-prompting method that returns the pubkey only
+  if `getPublicKey` was previously authorized, `''` otherwise — lets clients
+  probe without spawning prompts.
+
 ## Open questions
 
 - Sensible default policy matrix (which kinds default to allow/prompt/deny).

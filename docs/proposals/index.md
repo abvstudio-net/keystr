@@ -7,6 +7,13 @@ roadmaps — each needs discussion before implementation.
    hardware-backed passkeys; never store the nsec in plaintext.
 2. [Batching & policies](02-batching-and-policies.md) — batched request UI,
    human-readable prompts, and policy-based auto-approval.
+3. [Cross-browser Manifest V3](03-cross-browser-mv3.md) — one codebase,
+   per-target builds for Chrome, Firefox, and Safari.
+4. [Remote signer mode (NIP-46)](04-remote-signer-nip46.md) — the extension as
+   a Nostr Connect bunker; keys live in one place, other devices sign remotely.
+5. [Upstream feature ports](05-upstream-feature-ports.md) — cherry-pick the
+   best of fiatjaf/nos2x: kind-scoped policies, `peekPublicKey`, notification
+   audit, ncryptsec import.
 
 ## Related reading
 

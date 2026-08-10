@@ -15,6 +15,11 @@ nav:
       - proposals/index.md
       - Passkey key protection: proposals/01-passkey-key-protection.md
       - Batching & policies: proposals/02-batching-and-policies.md
+      - Cross-browser Manifest V3: proposals/03-cross-browser-mv3.md
+      - Remote signer (NIP-46): proposals/04-remote-signer-nip46.md
+      - Upstream feature ports: proposals/05-upstream-feature-ports.md
+  - Security:
+      - Vulnerabilities: security/vulnerabilities.md
 
 markdown_extensions:
   - admonition
